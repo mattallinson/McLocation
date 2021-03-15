@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <!-- Gimmicky fade css-->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- homebaked map control js -->
+    <script type="text/javascript">
+    	function map2_change(map_name) {
+    		document.getElementById("map").src = map_name + '.png';
+    		$('.map-description').hide(); //hides all map-descriptions
+    		$('#' + map_name).show(); //shows the selected-one
+    	}
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(function () {
+        $(".toggle-interstates").click(function() {
+          $(".map1").toggle()
+        })
+      });
+    </script>
+    
+    <style>
+      .padded{
+        padding:25px 0px
+      }
+      .wide-pad{
+        padding:20vw 0vw 0vw
+      }
+      .scroll-image{
+        width: 100vw;
+        margin: 0;
+      }
+
+      #header{
+        background: url("header.png") no-repeat top center fixed;
+        background-size: contain;
+        padding-bottom:40%
+      }
+
+      #midpoint{
+        background: url("burns.png") no-repeat top center fixed;
+        background-size: cover;
+        height: 40vw
+      }
+
+      #mid-image{
+        height:100%; 
+      }
+
+    </style>
+    
+    <title>McDonald's Project – Matt Allinson</title>
+</head>  
+<body>
+  <div class="scroll-image" id="header"></div>
+<!-- Headline -->
+  <div class="container" >
+    <h1 class="display-4"> 7 miles south of Challis, Idaho</h1>
+    <h2 class="display-5">The furthest point from a McDonald's in the USA</h2>
+    <p><strong>40° 9' 31.41"N</strong> <i>Lat,</i> <strong>110° 44' 31.8768"W</strong> <i> Lon</i> </p>
+    <div data-aos="fade-up" id="Introduction">
+      <div class="row padded">
+          <div class="col-md-8">
+            <img src="locations.png" class="img-fluid map1">
+            <img src="locations-roads.png" class="img-fluid map1" style="display:none">
+          </div>
+<!-- Introduction -->
+    		  <div class="col-md-4"> 
+            <p> Here is every location of every McDonald's resturaunt in the contiguous USA. There are a lot of them. I scraped OpenStreetMap, confining it to just the contiguous states, and got 10,050, which lines up with <a href="https://www.scrapehero.com/location-reports/McDonalds-USA/">ScrapeHero's</a> claim of 13,797 in the entire USA. I was interested in how and why these were positioned they way they were. The first thing that's very obvious from the map is that they are clustered in major cities, and snake along insterstates</p>
+            <button type="button" class="btn btn-outline-danger toggle-interstates">Show/hide interstates</button>
+          </div>
+        </div>
+    </div>
+<!-- figure 1 -->
+    <div data-aos="fade-up" id="figure 1">
+        <div><h2 class="display-3">McDonald's Per US County</h2>
+          <p>You can explore how this looks at a per-county level.</p>
+        </div>  		
+        <!-- control buttons for figure 1 -->
+        <div class="row justify-content-md-center">
+          <div class="col-10">
+            <div class="btn-group btn-group-toggle padded" data-toggle="buttons">
+        			<label class="btn btn-outline-danger active">
+        				<input type="radio" name="options" id="option1" autocomplete="off"
+        				onclick="map2_change('raw-numbers')" checked>
+        				Number of resturaunts per county
+        			</label>
+        			<label class="btn btn-outline-danger">
+        				<input type="radio" name="options" id="option2" autocomplete="off"
+        				onclick="map2_change('density')">
+        				Density of resturaunts per county
+        			</label>
+        			<label class="btn btn-outline-danger">
+        				<input type="radio" name="options" id="option3" autocomplete="off"
+        				onclick="map2_change('per-capita')">
+        				Number of resturaunts per capita per county
+        			</label>
+        		</div>
+          </div>
+        </div>
+        <!-- grid for figure 1-->
+    		<div class="row">
+    			<div class="col-md-8"><img src="raw-numbers.png" class="img-fluid" id="map"></div>
+    			<div class="col-md-4" id="map-explainer">
+    				<div class="map-description" id="raw-numbers" style="display:block">
+  	  				<h5>Number of resturaunts per county</h5>
+  	  				<p> The raw number count of resturants per county doesn't tell us much that we didn't know from plotting each location. West coast counties are a lot larger than east coast ones – e.g. the entirity of Los Angeles is one county, so the counties with the largest McDonald's count are mostly out west simply because of the sheer size of the counties.</p>
+  	  			</div>
+  	  			<div class="map-description" id='density' style="display:none">
+  	  				<h5>Density of resturants per county</h5>
+  	  				<p>This map highlights more where there are urban and suburban areas are. The scale bar of this map has the rather ludicrous unit of milliMcDonald's per square Mile. I'll explore McDensity more below, but the big cities on the East Coast are the most McDense</p>
+  	  			</div>
+  	  			<div class="map-description" id='per-capita' style="display:none">
+  	  				<h5>Resturaunts per capita</h5>
+  	  				<p>This map is fun because it highlights that the geographic spread of McDonalds is very heavily influenced by population. On the east coast and midwest the reduction in variation between counties shows that McDonald's concentration is dictated by population size. In the west, it accentuates even more how McDonald's resturants locations are dictated by major roads, where counties with almost no people which are intesected by one of the east-west interstates have "McDonalds per person" counts 10 times higher than New York City.</p>
+    			</div>
+        </div>
+      </div>
+<!-- Table 1 -->
+      <div data-aos="fade-up" class="row justify-content-md-center">
+        <div class="col-md-8">
+          <h1> The most McDonald's</h1>
+          <p class="padded">Manhattan has 2 McDonald's resturaunts per square mile, which is frankly a ridiculous number given that at least one of the square miles of Manhattan is central park. All of the top 10 areas for highest density of McDonalds, shown below, are in the New York City and Washington DC metropolitan areas. There is one exception of Winchester County, Virginia. It's a small county, with a bunch of tourists destinations, and it's bisected by I-81. As we've already seen, Interstates can add a lot of resturaunts to a county, expecialy if the north and south bound carriageways have separate resturaunts. This could also be caused by errors in OpenStreetmap, where a phantom resturaunt in such a small area would throw the averages off by a lot.</p>
+        </div>
+      </div>
+    </div>
+<!-- Table 1 -->
+    	<div class="row justify-content-md-center">
+        <div class="table-responsive-lg padded">
+          <table class="table table-striped">
+            <caption><sup>*</sup> 2010 census</caption>
+            <thead class="thead-light">
+              <tr>
+                <th>County Name</th>
+                <th>State</th>
+                <th>Area <br />(square miles)</th>
+                <th>Population<sup>*</sup></th>
+                <th>Number of<br /> McDonalds</th>
+                <th>McDensity <br />(per square mile)</th>
+                <th>McCapita <br />(per 10,000 people)</th>
+              </tr>
+
+            </thead>
+            <tbody>
+              <tr>
+                <th>Manhattan</th>
+                <td>New York</td>
+                <td>22.83</td>
+                <td>1585873</td>
+                <td>48</td>
+                <td>2.10</td>
+                <td>0.30</td>
+              </tr>
+              <tr>
+                <th>Fairfax</th>
+                <td>Virginia</td>
+                <td>6.24</td>
+                <td>22565</td>
+                <td>4</td>
+                <td>0.641</td>
+                <td>1.77</td>
+              </tr>
+              <tr>
+                <th>Kings</th>
+                <td>New York</td>
+                <td>70.82</td>
+                <td>2504700</td>
+                <td>35</td>
+                <td>0.49</td>
+                <td>0.14</td>
+              </tr>
+              <tr>
+                <th>Alexandria</th>
+                <td>Virginia</td>
+                <td>15.027</td>
+                <td>139966</td>
+                <td>7</td>
+                <td>0.47</td>
+                <td>0.50</td>
+              </tr>
+              <tr>
+                <th>District of Columbia</th>
+                <td>District of Columbia</td>
+                <td>61.05</td>
+                <td>601723</td>
+                <td>28</td>
+                <td>0.46</td>
+                <td>0.47</td>
+              </tr>
+              <tr>
+                <th>Winchester</th>
+                <td>Virginia</td>
+                <td>9.23</td>
+                <td>26203</td>
+                <td>4</td>
+                <td>0.43</td>
+                <td>1.53</td>
+              </tr>
+              <tr>
+                <th>Bronx</th>
+                <td>New York</td>
+                <td>42.10</td>
+                <td>1385108</td>
+                <td>17</td>
+                <td>0.40</td>
+                <td>0.12</td>
+              </tr>
+              <tr>
+                <th>Queens</th>
+                <td>New York</td>
+                <td>108.53</td>
+                <td>2230722</td>
+                <td>36</td>
+                <td>0.33</td>
+                <td>0.16</td>
+              </tr>
+              <tr>
+                <th>Manassas</th>
+                <td>Virginia</td>
+                <td>9.88</td>
+                <td>37821</td>
+                <td>3</td>
+                <td>0.30</td>
+                <td>0.79</td>
+              </tr>
+              <tr>
+                <th>Hudson</th>
+                <td>New Jersey</td>
+                <td>46.19</td>
+                <td>634266</td>
+                <td>14</td>
+                <td>0.30</td>
+                <td>0.22</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    	</div>
+<!-- Not lovin' it -->
+      <div data-aos="fade-up" class="row justify-content-md-center">
+        <div class="col-md-8">
+          <h1>Not Lovin' It</h1>
+          <p>More than half of the contiguous counties of the USA have a McDonald's. But where are the ones that don't have one? Let's plot it on a map and take a look.</p>
+        </div>
+      </div>
+      <img src="notlovinit.png" class="img-fluid padded" data-aos="fade-up" alt="US Counties without a McDonalds">
+      <div class="row justify-content-md-center">
+        <div class="col-md-8">
+          <p>Pleasingly, one can walk from the Mexican border to the Canadian border without passing through a county with a McDonald's in, <b><em>...just</em></b>. There's one county holding the whole trail together, which is on the I-80 but miraculously doesn't have a McDonalds rest-stop in it.</p> 
+
+          <p>No such chance with an east to west walk, however. Both coasts are heavily McDonaldized. Florida and the North East are amusingly both completely wiped off this map, as both areas are chock full of resturaunts. Fun exceptions are
+          </p>
+            <ul>
+              <li>Martha's Vinyard and Nantucket, which are presumably too genteel</li>
+              <li>Counties in the far south of Florida, which are have more alligators than people</li>
+              <li>The far north of New England, which have more bears than people.</li>
+            </ul>
+<!-- Near and Far -->
+          <h1>Near and Far</h1>
+          <p>To get a bit more information on the geographical spread of resturaunts I generated a <a href="https://scikit-learn.org/stable/modules/neighbors.html#ball-tree">Ball Tree</a> data&#8209;structure, which is a method in SciKit Learn that lets you work out distances between a big network of neighbours. It's a very efficient way of finding out the most remote point of a network. For the network of McDonald's resturaunts in the contiguous USA, that honour fell to the branch in <a href="https://www.google.com/maps/place/McDonald's/@43.573655,-119.0740473,15z">Burns, Oregon.</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="scroll-image" id="midpoint">
+  <img src="burns-transparent.png" id="mid-image">
+</div>
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-md-8">
+          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras finibus ligula porta, lacinia lorem ut, interdum lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam non lorem orci. Sed vehicula leo eu metus lacinia vulputate. Aliquam in tellus quis ligula maximus pretium. Sed vehicula pretium turpis non placerat. Suspendisse potenti. Phasellus elementum dui a nulla eleifend pretium. Morbi gravida justo nunc, quis facilisis nunc posuere sit amet. Mauris condimentum ac sapien vitae hendrerit. In eu mollis dui.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+</body>
+</html>
